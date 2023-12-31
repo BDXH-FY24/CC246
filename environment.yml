@@ -1,0 +1,8 @@
+name: drought
+channels:
+- conda-force
+- base
+- R
+dependencies
+- r-base
+- r-tidyverse
