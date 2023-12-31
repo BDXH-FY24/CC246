@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 dldldlddll
 # CC246
-
+just try to git pull and git commit and push again
 
 =======
 Ignomre
