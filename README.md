@@ -17,3 +17,5 @@ bash sripts
 # CC248
 Snakemake file creation and execution: (https://www.youtube.com/watch?v=r9PWnEmz_tc)
 
+
+# stop following and pushing .snakemake to github

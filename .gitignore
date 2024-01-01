@@ -51,4 +51,4 @@ po/*~
 rsconnect/
 
 # snakemake
-.snakemake
+.snakemake/
