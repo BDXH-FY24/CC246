@@ -7,5 +7,6 @@ dependencies:
 - r-base
 - r-tidyverse
 - wget=1.20.3
-- snakemake8.0.1
+- snakemake=8.0.1
+- graphviz=0.20.1
 

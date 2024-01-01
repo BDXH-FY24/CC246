@@ -1,3 +1,11 @@
+rule targets:
+    input:
+        "data/ghcnd_all.tar.gz",
+        "data/ghcnd-inventory.txt",
+        "data/ghcnd-stations.txt",
+        "data/ghcnd_all_files.txt"
+
+
 rule get_all_archive: 
     input:
         script="code/get_GHCNDdata_master.sh"
@@ -46,4 +54,4 @@ rule get_station:
         """
         {input.script} {params.file}
         """
-       
+     
