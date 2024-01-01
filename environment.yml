@@ -3,6 +3,6 @@ channels:
 - conda-force
 - base
 - R
-dependencies
+dependencies:
 - r-base
 - r-tidyverse
