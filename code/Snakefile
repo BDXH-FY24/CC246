@@ -1,6 +1,13 @@
 rule get_all_archive: 
     input:
+        script="code/get_GHCNDdata_master.sh"
     output:
+        "data/ghcnd_all.tar.gz"
     params:
+        "ghcnd_all.tar.gz"
+    shell: 
+        """
+        {input.script} {params.file}
+        """
     
 
