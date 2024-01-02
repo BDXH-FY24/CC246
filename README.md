@@ -22,3 +22,7 @@ Snakemake file creation and execution: (https://www.youtube.com/watch?v=r9PWnEmz
 
 # CC249 
 read fixed-width data frame
+
+# CC250 
+Using the archive R package to read and write tar.gz and other archive files 
+https://www.youtube.com/watch?v=LKprlFCLnSA 
