@@ -1,4 +1,7 @@
 
+## URL: CC249 https://www.youtube.com/watch?v=nNKwcIfcwgo
+## URL: CC250 https://www.youtube.com/watch?v=LKprlFCLnSA
+
 library(glue)
 library(tidyverse)
 library(lubridate)
@@ -13,9 +16,6 @@ widths <- c(11,4,2,4,rep(c(5,1,1,1), 31))
 headers <- c("ID","YEAR","MONTH", "ELEMENT", unlist(map(1:31,quadruple)))
 
 read_fwf("data/ghcnd_all/ASN00008255.dly", fwf_widths(widths, headers)) 
-
-
-
 
 
 read_fwf("data/ghcnd_all/ASN00008255.dly", 

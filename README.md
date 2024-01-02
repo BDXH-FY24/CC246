@@ -19,3 +19,6 @@ Snakemake file creation and execution: (https://www.youtube.com/watch?v=r9PWnEmz
 
 
 # stop following and pushing .snakemake to github
+
+# CC249 
+read fixed-width data frame
