@@ -3,7 +3,8 @@ rule targets:
         "data/ghcnd_all.tar.gz",
         "data/ghcnd-inventory.txt",
         "data/ghcnd-stations.txt",
-        "data/ghcnd_all_files.txt"
+        "data/ghcnd_all_files.txt",
+        "data/ghcnd.cat.gz"
 
 
 rule get_all_archive: 
@@ -17,6 +18,17 @@ rule get_all_archive:
         """
         {input.script} {params.file}
         """
+rule conatenate_dly_files: 
+    input:
+        script="code/concatenate.tar.sh",
+        tarball="data/ghcnd_all.tar.gz"
+    output:
+        "data/ghcnd.cat.gz"  
+    shell:
+         """
+         {input.script}
+         """
+
 
 rule get_all_filenames: 
     input:
