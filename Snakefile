@@ -4,7 +4,8 @@ rule targets:
         "data/ghcnd-inventory.txt",
         "data/ghcnd-stations.txt",
         "data/ghcnd_all_files.txt",
-        "data/ghcnd_tidy.tsv.gz"
+        "data/ghcnd_tidy.tsv.gz",
+        "data/ghcnd_regions.tsv"
 
 
 rule get_all_archive: 
@@ -58,7 +59,7 @@ rule get_station:
         {input.script} {params.file}
         """
      
-rule conatenate_dly_files: 
+rule summarize_dly_files: 
     input:
         bash_script="code/concatenate.tar.sh",
         r_script="code/CC251.R",
@@ -69,3 +70,13 @@ rule conatenate_dly_files:
          """
          {input.bash_script}
          """
+rule aggregate_stations:
+	input:
+		r_script="code/CC253.R",
+		data="data/ghcnd-stations.txt"
+	output:
+		"data/ghcnd_regions.tsv"
+	shell:
+		"""
+		{input.r_script}
+		"""
