@@ -80,3 +80,35 @@ rule aggregate_stations:
 		"""
 		{input.r_script}
 		"""
+
+
+rule get_regions_years:
+	input:
+		r_script = "code/get_regions_years.R"
+		data = "data/ghcnd-inventory.txt"
+	output:
+		"data/ghcnd_regions.tsv"
+	shell:
+		"""
+		{input.r_script}
+		"""
+
+
+
+rule plot_drought_by_region
+	input:
+		r_script = "code/RR258.R",
+		prcp_data ="data/ghcnd_tidy.tsv.gz",
+		station_data = "data/ghcnd_regions.tsv"
+ 
+	output:
+		"figures/world_drought.png"
+
+	shell:
+		"""
+		{input.r_script}
+		"""
+
+
+
+

@@ -116,10 +116,63 @@ lat_long_prcp %>%
   select(-n, -year, -mean_prcp)   
 
 ## CC258 URL: https://www.youtube.com/watch?v=FnJKF3QfqwY
+library(tidyverse)
+library(glue)
+library(lubridate)
+
+end <- today()
+start <- end - 30
+
+# Format
+end <- format(today(), "%B %d, %Y")
+start <- format(today() - 30, "%B %d, %Y")
 
 
+lat_long_prcp %>%
+  group_by(latitude, longitude) %>% 
+  mutate(z_score=(mean_prcp - mean(mean_prcp))/sd(mean_prcp),
+         n = n(),
+  ) %>% 
+  ungroup() %>% 
+  filter(n >= 50 & year == 1990) %>% 
+  select(-n, -year, -mean_prcp) %>% 
+  mutate(z_score = if_else(z_score > 2, 2, z_score),
+         z_score = if_else(z_score < -2, -2, z_score)) %>% 
+  ggplot(aes(x=longitude, y=latitude, fill=z_score))+
+  geom_tile()+
+  coord_fixed()+
+  scale_fill_gradient2(name=NULL,
+                       low = "#d8b365", 
+                       mid = "#f5f5f5",
+                       high = "#5ab4ac",
+                       midpoint = 0,
+                       breaks = c(-2, -1,0, 1,2),
+                       labels = c("<-2", "-1", "0","1",">2"))+
+  theme(plot.background = element_rect(fill = "black"),
+        panel.background = element_rect(fill = "black"),
+        panel.grid=element_blank(),
+        plot.title = element_text(color = "#f5f5f5"),
+        plot.subtitle = element_text(color = "#f5f5f5"),
+        plot.caption = element_text(color = "#f5f5f5"),
+        # plot.caption.position = c
+        axis.text = element_blank(),
+        legend.background = element_blank(),
+        legend.text = element_text(color = "#f5f5f5"),
+        legend.position = c(0.15,0.00),
+        legend.direction = "horizontal",
+        legend.key.height  = unit(0.25, "cm")
+        )+
+  labs(title = glue("Amount of precipitation for {start} to {end}"),
+       subtitle = "Stardnardized Z-score for at least the past 50 years",
+       caption = "Precipitation data collected from GHCN daily data at NOAA"
+       )
+
+ggsave("figures/world_drough.png", width=8, height = 4)
 
 
+#('#d8b365','#f5f5f5','#5ab4ac')
+# colorbrewer 2.0 URL: https://colorbrewer2.org/#type=diverging&scheme=BrBG&n=3
+  
 
 
 
