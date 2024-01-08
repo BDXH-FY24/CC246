@@ -7,7 +7,7 @@
 library(glue)
 library(tidyverse)
 library(lubridate)
-
+rm(list=ls())
 # tibble(x=seq(-2,2, 0.1),
 #        round=round(x),
 #        trunc=trunc(x),
@@ -65,19 +65,65 @@ col_select =c(id, latitude, longitude)) %>%
   
 ## CC256: URL https://www.youtube.com/watch?v=eNpt6hz-UGo
 
+# first_year <- 1800  should have been set up and not shown in scripts
+# last_year <- 
+
 prcp_data <- read_tsv("data/ghcnd_tidy.tsv.gz")
 station_data <- read_tsv("data/ghcnd_regions.tsv")
 
-lat_long_prcp <- inner_join(prcp_data, station_data, by = "id") %>% 
-  filter((year != "first_year" & year!="last_year") & year ==2022) %>% 
-  group_by(latitude, longitude,year) %>% 
-  summarize(mean_prcp=mean(prcp))
 
-lat_long_prcp
+         
+         
+lat_long_prcp <- inner_join(prcp_data, station_data, by = "id") %>%
+  group_by(latitude, longitude, year) %>%
+  summarize(mean_prcp = mean(prcp), .groups = "drop")
+
+
+# 
+# lat_long_prcp <- inner_join(prcp_data, station_data, by = "id") %>% 
+#   filter((year != "first_year" & year!="last_year") & year ==2022) %>% 
+#   group_by(latitude, longitude,year) %>% 
+#   summarize(mean_prcp=mean(prcp), .groups = "drop")
+
+this_year <- lat_long_prcp %>% 
+  filter(year == 2022) %>% 
+  select(-year)
+
+inner_join(lat_long_prcp,this_year, by=c("latitude", "longitude")) %>% 
+  rename(all_years=mean_prcp.x,
+         this_year=mean_prcp.y) %>% 
+  group_by(latitude, longitude) %>% 
+  summarize(z_score=((min(this_year )- mean(all_years))/sd(all_years)),
+         n = n(),
+         .groups = "drop") %>% 
+  filter(n >= 100 ) ## grep "ANN ARBOR"  data/ghcnd-stations.txt
+
+
+
+
+
 
 
   
+
+
+
+
+
+
+
+ try <-  inner_join(lat_long_prcp, this_year, by=c("latitude", "longitude")) %>% 
+  rename(all_years = mean_prcp.x,
+         this_year=mean_prcp.y) %>% 
+  group_by(latitude, longitude) %>% 
+  mutate(mean = mean(all_years),
+         sd=sd(is.numeric(all_years) , na.rm=T),
+         n=n()) 
   
+
+    filter(n >=20)
+
+
   
   
   
