@@ -5,8 +5,8 @@ rule targets:
         "data/ghcnd-stations.txt",
         "data/ghcnd_all_files.txt",
         "data/ghcnd_tidy.tsv.gz",
-        "data/ghcnd_regions.tsv"
-
+        "data/ghcnd_regions.tsv",
+	    "index.html"
 
 rule get_all_archive: 
     input:
@@ -84,7 +84,7 @@ rule aggregate_stations:
 
 rule get_regions_years:
 	input:
-		r_script = "code/get_regions_years.R"
+		r_script = "code/get_regions_years.R",
 		data = "data/ghcnd-inventory.txt"
 	output:
 		"data/ghcnd_regions.tsv"
@@ -95,7 +95,7 @@ rule get_regions_years:
 
 
 
-rule plot_drought_by_region
+rule plot_drought_by_region:
 	input:
 		r_script = "code/RR258.R",
 		prcp_data ="data/ghcnd_tidy.tsv.gz",
@@ -110,5 +110,13 @@ rule plot_drought_by_region
 		"""
 
 
-
-
+rule render_index:
+	input:
+		rmd = "index.Rmd",
+		png = "visuals/world_drought/png"
+	output:
+		"index.html"
+	shell:
+		"""
+		R -e "library(rmarkdown); render('{input.rmd}')"
+		"""
